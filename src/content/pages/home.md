@@ -143,7 +143,7 @@ nosotros:
   vision_title: Nuestra Visión
   show_section: true
   vision_text: Texto Visión
-  mision_title: Nuestra MisiónTexto Misión
+  mision_title: Nuestra Misión
   background_image: /assets/uploads/proyectos.png
   subtitle: ¿quienes somos?
   title: "Sobre Nosotros: El Arquitecto Asistente"
@@ -159,5 +159,6 @@ nosotros:
 
     **Tu éxito es nuestro éxito.** Estamos aquí para ser el socio que te acompaña, te entiende y te ayuda a escalar.
   image: /assets/uploads/logo.jpg
+  mision_text: Texto Misión
   description: Descripción principal
 ---
