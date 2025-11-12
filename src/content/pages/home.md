@@ -18,13 +18,15 @@ cualidades_marca:
     - title: "Cualidad #1"
       description: Somos Buenos
       image_fondo: /assets/uploads/gemini_generated_image_a9owxpa9owxpa9ow.png
+      icon: /assets/uploads/gemini_generated_image_309ow2309ow2309o.png
     - title: "Cualidad #2 "
-      icon: /assets/uploads/gemini_generated_image_wmno0vwmno0vwmno.png
+      icon: /assets/uploads/gemini_generated_image_6zdjp76zdjp76zdj.png
       description: Somos los Mejores
       image_fondo: /assets/uploads/gemini_generated_image_s1cx5ts1cx5ts1cx.png
     - title: "Cualidad #3"
       description: Somos Unicos
       image_fondo: /assets/uploads/gemini_generated_image_wmno0vwmno0vwmno.png
+      icon: /assets/uploads/gemini_generated_image_5yfobf5yfobf5yfo.png
 robots: index, follow
 productos:
   show_section: true
