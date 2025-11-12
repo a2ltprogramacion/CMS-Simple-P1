@@ -1,14 +1,14 @@
 ---
-// @src/pages/index.astro (VERSIÓN 4.24 - Hotfix Proyectos: Centrado y Distribución en Grid)
+// @src/pages/index.astro (VERSIÓN 5.7 - Paleta V5.1 y Fuentes V5.0 Aplicadas)
 import { getEntry, getCollection, type CollectionEntry } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import { mdToHtml } from "../utils/markdown";
-import ServiceCardV4 from "../components/ServiceCardV4.astro";
+import ProductCard from "../components/ProductCard.astro";
 import ProjectCardV4 from "../components/ProjectCardV4.astro";
 
 // Cargar datos del CMS
 const home = await getEntry("pages", "home");
-const allServicios = await getCollection("servicios");
+const allProductos = await getCollection("productos");
 const allProyectos = await getCollection("proyectos");
 const contacto = await getEntry("informacion-de-contacto", "general");
 const ajustes = await getEntry("ajustes", "home");
@@ -30,11 +30,23 @@ const hero = home?.data.hero ?? {
 };
 const nosotros = home?.data.nosotros ?? {
   show_section: true,
-  title: "¿Quiénes Sómos?",
+  title: "## ¿Quiénes Somos?",
+  subtitle: "Nuestra Historia",
+  description: "Descripción principal de la empresa.",
+  mision_title: "Misión",
+  vision_title: "Visión",
 };
-const servicios = home?.data.servicios ?? {
+const productos = home?.data.productos ?? {
   show_section: true,
-  title: "Nuestros Servicios",
+  title: "Nuestros Productos",
+};
+const cualidades_marca = home?.data.cualidades_marca ?? {
+  show_section: true,
+  items: [
+    { title: "Cualidad 1", description: "Descripción de la cualidad 1.", image_fondo: "/assets/uploads/placeholder.jpeg" },
+    { title: "Cualidad 2", description: "Descripción de la cualidad 2.", image_fondo: "/assets/uploads/placeholder.jpeg" },
+    { title: "Cualidad 3", description: "Descripción de la cualidad 3.", image_fondo: "/assets/uploads/placeholder.jpeg" },
+  ],
 };
 const proyectos = home?.data.proyectos ?? {
   show_section: true,
@@ -68,10 +80,16 @@ const heroTitleHtml = render(hero.title, true);
 const heroSubtitleHtml = render(hero.subtitle, true);
 const heroDescriptionHtml = render(hero.description);
 const heroCtaTextHtml = render(hero.cta_text, true);
+
 const nosotrosTitleHtml = render(nosotros.title, true);
-const nosotrosContentHtml = render(nosotros.content);
-const serviciosTitleHtml = render(servicios.title, true);
-const serviciosSubtitleHtml = render(servicios.subtitle, true);
+const nosotrosSubtitleHtml = render(nosotros.subtitle, true);
+const nosotrosContentHtml = render(nosotros.description);
+const nosotrosMisionTextHtml = render(nosotros.mision_text);
+const nosotrosVisionTextHtml = render(nosotros.vision_text);
+
+const productosTitleHtml = render(productos.title, true);
+const productosSubtitleHtml = render(productos.subtitle, true);
+
 const proyectosTitleHtml = render(proyectos.title, true);
 const proyectosSubtitleHtml = render(proyectos.subtitle, true);
 const clientesTitleHtml = render(clientes.title, true);
@@ -93,10 +111,10 @@ const proyectosParaMostrar =
     ? allProyectos.filter((proyecto) =>
         titulosProyectosDestacados.includes(proyecto.data.titulo),
       )
-    : allProyectos.slice(0, 6); // Fallback: Muestra los primeros 6
+    : allProyectos.slice(0, 6);
+// Fallback: Muestra los primeros 6
 
-// --- LÓGICA DE CLIENTES (V4.21) ---
-// 1. Lógica para la Rejilla 3x4
+// --- LÓGICA DE CLIENTES ---
 const titulosClientesDestacados: string[] =
   home?.data.clientes?.lista_destacados ?? [];
 const clientesParaGrid =
@@ -104,12 +122,12 @@ const clientesParaGrid =
     ? allClientes.filter((cliente) =>
         titulosClientesDestacados.includes(cliente.data.titulo),
       )
-    : allClientes.slice(0, 12); // Fallback: Muestra los primeros 12
+    : allClientes.slice(0, 12);
+// Fallback: Muestra los primeros 12
 
-// 2. Lógica para el Scroller (Llenado de 18 slots)
-const TARGET_FILL_COUNT = 18; // El número de logos que queremos ver
+const TARGET_FILL_COUNT = 18;
 const clientCount = allClientes.length;
-let scrollerList: CollectionEntry<"clientes">[] = []; // Esta será la "Lista A"
+let scrollerList: CollectionEntry<"clientes">[] = [];
 
 if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
   const repetitions = Math.ceil(TARGET_FILL_COUNT / clientCount);
@@ -125,13 +143,24 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
       hero.show_section && (
         <section
           id="inicio"
-          class="relative min-h-screen flex items-center bg-accent text-text-inverted pt-10 md:pt-0 prose-color"
+          class="relative min-h-screen flex items-center bg-secondary text-text-base pt-24 md:pt-0 prose-color"
         >
-          <div class="w-full max-w-screen-xl mx-auto px-8 py-20 md:py-32 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          {/* IMAGEN DE FONDO (ligera transparencia) */}
+          {hero.image_main && (
+            <div
+              class="absolute inset-0 w-full h-full bg-cover bg-center z-0 opacity-20"
+              style={`background-image: url(${hero.image_main});`}
+            >
+            </div>
+          )}
+          <div class="absolute inset-0 bg-primary/10 z-0"></div>
+
+          <div class="w-full max-w-screen-xl mx-auto px-8 py-20 md:py-32 grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10">
+            
             <div class="relative z-10 animate-fade-in-up">
-              <h1 class="text-4xl md:text-6xl font-bold mb-4 ">
+              <h1 class="text-4xl md:text-6xl font-serif font-bold mb-4 text-primary">
                 <span
-                  class="prose prose-invert max-w-none prose-strong:text-primary prose-unsize text-5xl md:text-6xl"
+                  class="prose prose-invert max-w-none prose-strong:text-accent-secondary prose-unsize text-5xl md:text-6xl text-primary"
                   set:html={heroTitleHtml}
                 ></span>
               </h1>
@@ -139,7 +168,7 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
               {hero.subtitle && (
                 <p class="mb-4">
                   <span
-                    class="prose prose-invert max-w-none prose-strong:text-primary prose-unsize text-xl"
+                    class="prose max-w-none prose-strong:text-accent-secondary prose-unsize text-xl text-primary/80"
                     set:html={heroSubtitleHtml}
                   ></span>
                 </p>
@@ -147,42 +176,35 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
 
               {hero.description && (
                 <div
-                  class="prose prose-xl prose-invert max-w-none prose-strong:text-primary prose-unsize text-lg"
+                  class="prose prose-xl max-w-none prose-strong:text-accent-secondary prose-unsize text-lg text-primary/70"
                   set:html={heroDescriptionHtml}
                 />
               )}
 
+              {/* CTA PRINCIPAL (VERDE) */}
               {hero.cta_text && (
                 <a
                   href={hero.cta_url ?? "#contacto"}
-                  class="bg-primary text-text-inverted font-bold py-3 px-8 text-lg hover:bg-accent hover:text-primary hover:border-2 inline-block hover:no-underline"
+                  class="bg-accent text-text-inverted font-bold py-3 px-8 text-lg hover:bg-primary inline-block hover:no-underline mt-6"
                 >
                   <span
-                    class="prose prose-invert max-w-none prose-strong:text-accent prose-unsize text-lg"
+                    class="prose prose-invert max-w-none prose-strong:text-primary prose-unsize text-lg"
                     set:html={heroCtaTextHtml}
                   />
                 </a>
               )}
             </div>
 
-            {/* (Imágenes sin cambios V4.9) */}
-            <div class="relative flex items-center justify-center min-h-[400px]">
+            <div class="relative flex items-center justify-center min-h-[400px] lg:pl-16">
               {hero.image_logo && (
                 <img
                   src={hero.image_logo}
                   alt="Logo"
-                  class="absolute inset-0 w-full h-full object-contain transform scale-100"
-                />
-              )}
-              {hero.image_main && (
-                <img
-                  src={hero.image_main}
-                  alt="Imagen Hero"
-                  class="relative z-10 min-w-72 max-w-md object-cover shadow-2xl"
+                  class="relative z-20 w-3/4 md:w-full max-w-sm object-contain shadow-2xl"
                 />
               )}
               {!hero.image_logo && !hero.image_main && (
-                <div class="relative z-10 w-full max-w-md h-80 bg-black/10 flex items-center justify-center text-text-inverted/50">
+                <div class="relative z-10 w-full max-w-md h-80 bg-black/10 flex items-center justify-center text-text-base/50">
                   (Imágenes se mostrarán aquí)
                 </div>
               )}
@@ -192,29 +214,90 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
       )
     }
 
+    {/* BLOQUE CUALIDADES DE MARCA (Acordeón V5.7 - Acento Naranja) */}
+    {
+      cualidades_marca.show_section && (
+        <div class="w-full max-w-screen-xl mx-auto px-8 -mt-16 relative z-30">
+          <div
+            id="quality-accordion"
+            class="flex w-full h-auto md:h-56 bg-primary text-text-inverted shadow-2xl overflow-hidden"
+          >
+            {cualidades_marca.items?.map((item, index) => (
+              <div
+                class="quality-panel"
+                data-index={index}
+                style={item.image_fondo ? `background-image: url(${item.image_fondo});` : ''}
+              >
+                <div class="quality-content">
+                  <h3 class="text-lg md:text-xl font-serif font-bold text-accent-secondary">
+                    {item.title}
+                  </h3>
+                  <p class="quality-description">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+    }
+
+    {/* SECCIÓN NOSOTROS (V5.7 - Acento Naranja) */}
     {
       nosotros.show_section && (
-        <section
-          id="nosotros"
-          class="relative py-24 bg-cover bg-center bg-no-repeat"
-          style={
-            nosotros.background_image
-              ? "background-image: url(" + nosotros.background_image + ")"
-              : "background-color: #eee;"
-          }
-        >
-          <div class="relative w-full max-w-screen-xl mx-auto px-8 lg:-mt-36">
-            <div class="w-full md:w-1/2 lg:w-2/5 mr-auto">
-              <div class="bg-primary text-text-inverted p-8 md:p-12 shadow-xl">
-                <h2 class="mb-4">
-                  <span
-                    class="prose prose-invert max-w-none prose-strong:text-accent prose-unsize text-4xl"
-                    set:html={nosotrosTitleHtml}
-                  ></span>
-                </h2>
+        <section id="nosotros" class="py-24 px-8 bg-secondary pt-36">
+          <div class="w-full max-w-screen-xl mx-auto relative z-10">
+            
+            <div class="text-center mb-12">
+              <h2 class="text-5xl font-serif font-bold mb-2 text-primary">
+                <span set:html={nosotrosTitleHtml} />
+              </h2>
+              {nosotros.subtitle && (
+                <h3 class="text-xl text-primary/80 font-sans">
+                  <span set:html={nosotrosSubtitleHtml} />
+                </h3>
+              )}
+            </div>
 
-                <div class="prose prose-lg prose-invert max-w-none prose-strong:text-accent prose-unsize text-lg">
+            {/* Zócalo Gris Claro */}
+            <div class="relative bg-white p-8 pt-16 md:p-12 md:pt-20 rounded-lg shadow-xl border border-gray-200">
+              
+              {/* Descripción Principal (Superpuesta - Acento Naranja) */}
+              <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 w-11/12 md:w-3/4 bg-accent-secondary text-text-inverted p-4 text-center rounded-lg shadow-2xl">
+                <div class="prose prose-invert max-w-none text-base">
                   <span set:html={nosotrosContentHtml} />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
+                
+                <div class="relative flex items-center justify-center row-span-2 min-h-[300px] bg-secondary rounded-lg shadow-inner overflow-hidden">
+                  {nosotros.image ? (
+                    <img
+                      src={nosotros.image}
+                      alt="Imagen de Nosotros"
+                      class="w-full h-full object-contain p-8"
+                    />
+                  ) : (
+                    <p class="text-primary/50">(Imagen de Nosotros)</p>
+                  )}
+                </div>
+
+                {/* Misión (Borde Naranja) */}
+                <div class="bg-secondary p-6 rounded-lg shadow-md border-l-4 border-accent-secondary">
+                  <h3 class="text-xl font-serif font-bold text-primary mb-2">{nosotros.mision_title || 'Misión'}</h3>
+                  <div class="prose max-w-none text-text-base/80 text-sm">
+                    <span set:html={nosotrosMisionTextHtml} />
+                  </div>
+                </div>
+
+                {/* Visión (Borde Naranja) */}
+                <div class="bg-secondary p-6 rounded-lg shadow-md border-l-4 border-accent-secondary">
+                  <h3 class="text-xl font-serif font-bold text-primary mb-2">{nosotros.vision_title || 'Visión'}</h3>
+                  <div class="prose max-w-none text-text-base/80 text-sm">
+                    <span set:html={nosotrosVisionTextHtml} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -223,29 +306,30 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
       )
     }
 
+    {/* SECCIÓN PRODUCTOS (V5.7 - Fondo Verde) */}
     {
-      servicios.show_section && (
-        <section id="servicios" class="py-20 px-8 bg-accent text-text-inverted">
+      productos.show_section && (
+        <section id="productos" class="py-20 px-8 bg-accent text-text-inverted">
           <div class="w-full max-w-screen-2xl mx-auto text-center">
-            <h2 class="mb-4">
+            <h2 class="mb-4 font-serif">
               <span
                 class="prose prose-invert max-w-none prose-strong:text-primary prose-unsize text-5xl"
-                set:html={serviciosTitleHtml}
+                set:html={productosTitleHtml}
               ></span>
             </h2>
 
-            {servicios.subtitle && (
+            {productos.subtitle && (
               <p class="max-w-2xl mx-auto mb-12">
                 <span
                   class="prose prose-invert max-w-none prose-strong:text-primary prose-unsize text-2xl"
-                  set:html={serviciosSubtitleHtml}
+                  set:html={productosSubtitleHtml}
                 ></span>
               </p>
             )}
-            {/* REVERTIDO: Servicios - Vuelve a la configuración original de grid */}
+            
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-              {allServicios.map((servicio) => (
-                <ServiceCardV4 servicio={servicio} />
+              {allProductos.map((producto) => (
+                <ProductCard producto={producto} />
               ))}
             </div>
           </div>
@@ -253,13 +337,14 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
       )
     }
 
+    {/* SECCIÓN PROYECTOS (V5.7 - Fondo Gris Claro) */}
     {
       proyectos.show_section && (
         <section id="proyectos" class="py-20 px-8 bg-secondary">
           <div class="w-full max-w-screen-desktop-lg mx-auto text-center">
-            <h2 class="mb-4 text-primary">
+            <h2 class="mb-4 text-primary font-serif">
               <span
-                class="prose max-w-none prose-strong:text-accent prose-unsize prose-invert text-7xl text-primary"
+                class="prose max-w-none prose-strong:text-accent-secondary prose-unsize prose-invert text-7xl text-primary"
                 set:html={proyectosTitleHtml}
               ></span>
             </h2>
@@ -267,7 +352,7 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
             {proyectos.subtitle && (
               <p class="max-w-2xl mx-auto mb-12">
                 <span
-                  class="prose max-w-none prose-strong:text-accent prose-unsize text-2xl"
+                  class="prose max-w-none prose-strong:text-accent-secondary prose-unsize text-2xl"
                   set:html={proyectosSubtitleHtml}
                 ></span>
               </p>
@@ -292,11 +377,12 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
       )
     }
 
+    {/* SECCIÓN CLIENTES (V5.7 - Fondo Verde y Azul Pizarra) */}
     {
       clientes.show_section && (
         <section id="clientes" class="pt-20">
           <div class="bg-accent text-text-inverted py-16 text-center">
-            <h2 class="font-bold ">
+            <h2 class="font-bold font-serif">
               <span
                 class="prose prose-invert max-w-none prose-strong:text-primary prose-unsize prose-invert text-7xl"
                 set:html={clientesTitleHtml}
@@ -306,7 +392,7 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
 
           <div class="bg-primary py-20">
             <div class="w-full max-w-screen-2xl mx-auto px-8">
-              {/* Clientes Grid - Se mantiene el flex-wrap justify-center que funciona bien aquí */}
+              {/* Clientes Grid */}
               <div class="flex flex-wrap justify-center gap-x-4 gap-y-4 max-w-7xl mx-auto">
                 {clientesParaGrid.map((cliente) =>
                   cliente.data.url ? (
@@ -376,13 +462,14 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
       )
     }
 
+    {/* SECCIÓN TESTIMONIOS (V5.7 - Borde Naranja) */}
     {
       testimonios.show_section && (
         <section id="testimonios" class="bg-secondary py-20 px-8 text-primary">
           <div class="w-full max-w-screen-2xl mx-auto text-center">
-            <h2 class="mb-12">
+            <h2 class="mb-12 font-serif">
               <span
-                class="prose max-w-none prose-strong:text-accent prose-unsize text-5xl"
+                class="prose max-w-none prose-strong:text-accent-secondary prose-unsize text-5xl"
                 set:html={testimoniosTitleHtml}
               ></span>
             </h2>
@@ -397,7 +484,7 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
                   >
                     {testimoniosLista.map((cliente: Testimonio) => (
                       <div class="min-w-full p-6 flex-shrink-0 flex items-center justify-center">
-                        <div class="w-full max-w-3xl bg-white p-8 shadow-md text-left clientes-card border-l-4 border-accent">
+                        <div class="w-full max-w-3xl bg-white p-8 shadow-md text-left clientes-card border-l-4 border-accent-secondary">
                           {cliente.google_review_embed ? (
                             <div set:html={cliente.google_review_embed} />
                           ) : (
@@ -464,16 +551,16 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
     animation: fade-in-up 1s ease-out forwards;
   }
 
-  /* Estilos del Carrusel (Testimonios) */
+  /* Estilos del Carrusel (Testimonios) - CORREGIDO V5.7 */
   #clientes-dots button {
     width: 10px;
     height: 10px;
     border-radius: 9999px;
-    background: theme("colors.primary / 0.4");
+    background: #2C3E5066; /* theme("colors.primary / 0.4") */
     border: none;
   }
   #clientes-dots button.active {
-    background: theme("colors.primary");
+    background: #2C3E50; /* theme("colors.primary") */
   }
 
   .clientes-card {
@@ -537,18 +624,87 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
   .marquee-list {
     display: flex;
     align-items: center;
-    gap: 4rem; /* 64px de espacio entre logos */
-    padding: 0 2rem; /* 32px de padding en los extremos */
-    flex-shrink: 0; /* Evita que la lista se encoja */
+    gap: 4rem; 
+    padding: 0 2rem;
+    flex-shrink: 0;
   }
   .marquee-list img {
-    flex-shrink: 0; /* Evita que los logos se encojan */
+    flex-shrink: 0;
   }
+
+  /* --- INICIO: CAMBIO 5.7 - ESTILOS ACORDEÓN CUALIDADES (CORREGIDOS) --- */
+  .quality-panel {
+    /* Transiciones */
+    transition:
+      flex-grow 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+      background-color 0.5s ease;
+    
+    /* Layout Flex */
+    flex-grow: 1; /* Todos contraídos por igual */
+    
+    /* Estilo Base (Contraído) */
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: #2C3E50; /* theme('colors.primary / 1') */
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply; /* Oscurece la imagen de fondo */
+  }
+
+  .quality-panel.active {
+    flex-grow: 4; /* El panel activo se expande (ratio 4:1) */
+    background-color: #2C3E5099; /* theme('colors.primary / 0.6') 60% opacity */
+  }
+
+  /* Contenido (Siempre horizontal) */
+  .quality-content {
+    /* Layout */
+    position: relative; 
+    padding: 1.5rem;
+    
+    /* Estilo */
+    opacity: 1; /* Siempre visible */
+    white-space: normal; /* El texto se ajusta */
+  }
+
+  /* Descripción (Párrafo) */
+  .quality-description {
+    /* Transiciones */
+    transition: opacity 0.5s ease-in-out 0.2s, max-height 0.5s ease-in-out 0.2s;
+
+    /* Estilo Base (Contraído) */
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    
+    /* Estilo de Texto (CSS Estándar) */
+    margin-top: 0.5rem;
+    color: rgb(255 255 255 / 0.9); /* text-white/90 */
+    font-size: 0.875rem; /* text-sm */
+    line-height: 1.25rem;
+  }
+  
+  .quality-panel.active .quality-description {
+    opacity: 1; /* Mostrar descripción solo en el panel activo */
+    max-height: 100px; /* Espacio para que el texto aparezca */
+  }
+
+  /* Media query para md:text-base */
+  @media (min-width: 768px) {
+    .quality-description {
+      font-size: 1rem; /* text-base */
+      line-height: 1.5rem;
+    }
+  }
+  /* --- FIN: CAMBIO 5.7 --- */
 </style>
 
 <script>
   // Script del carrusel de testimonios (V4.1 CON TIPOS)
   document.addEventListener("DOMContentLoaded", () => {
+    
+    // --- INICIO: Script Carrusel Testimonios ---
     (function () {
       const track = document.getElementById("clientes-track");
       const prev = document.getElementById("clientes-prev");
@@ -570,7 +726,7 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
         if (track)
           (track as HTMLElement).style.transform =
             `translateX(-${index * 100}%)`;
-        // --- LÍNEA CORREGIDA (V4.15) ---
+        
         if (dotsContainer)
           Array.from(dotsContainer.children).forEach((b, idx) =>
             (b as HTMLElement).classList.toggle("active", idx === index),
@@ -604,7 +760,6 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
           prevSlide();
           resetTimer();
         });
-
       function startTimer() {
         if (timer) clearInterval(timer as number);
         timer = window.setInterval(() => {
@@ -640,5 +795,71 @@ if (clientCount > 0 && clientCount < TARGET_FILL_COUNT) {
       goTo(0);
       startTimer();
     })();
+    // --- FIN: Script Carrusel Testimonios ---
+
+
+    // --- INICIO: Script Acordeón Cualidades (Sin cambios en JS) ---
+    (function () {
+      const accordion = document.getElementById("quality-accordion");
+      if (!accordion) return;
+
+      const panels = accordion.querySelectorAll(".quality-panel");
+      if (panels.length === 0) return;
+
+      const interval = 5000; // 5 segundos
+      let currentIndex = 0;
+      let timer: number | null = null;
+
+      function activatePanel(index: number) {
+        panels.forEach((panel, i) => {
+          if (i === index) {
+            panel.classList.add("active");
+          } else {
+            panel.classList.remove("active");
+          }
+        });
+      }
+
+      function nextPanel() {
+        currentIndex = (currentIndex + 1) % panels.length;
+        activatePanel(currentIndex);
+      }
+
+      function startTimer() {
+        if (timer) clearInterval(timer as number);
+        timer = window.setInterval(nextPanel, interval);
+      }
+
+      function stopTimer() {
+        if (timer) {
+          clearInterval(timer as number);
+          timer = null;
+        }
+      }
+
+      // Interacción del usuario (Hover/Focus)
+      panels.forEach((panel, index) => {
+        const resetAndActivate = () => {
+          stopTimer(); 
+          currentIndex = index; 
+          activatePanel(index); 
+        };
+        
+        panel.addEventListener("mouseenter", resetAndActivate);
+        panel.addEventListener("focus", resetAndActivate);
+      });
+
+      // Reiniciar el ciclo cuando el mouse sale del contenedor
+      accordion.addEventListener("mouseleave", () => {
+          startTimer();
+      });
+
+      // Iniciar
+      activatePanel(0);
+      startTimer();
+
+    })();
+    // --- FIN: NUEVO Script Acordeón Cualidades ---
+
   });
 </script>

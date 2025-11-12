@@ -1,4 +1,4 @@
-// @tailwind.config.mjs (VERSIÓN 4.0)
+// @tailwind.config.mjs (VERSIÓN 5.1 - Paleta y Fuentes Finales)
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
@@ -14,23 +14,31 @@ export default {
     },
     extend: {
       colors: {
-        // --- Paleta V4.0 ---
-        // Gris profundo para textos y elementos primarios
-        'primary': '#3D3D3D',
-        // Coral para CTAs y acentos vibrantes
-        'accent': '#F5775F',
-        // Fondo principal (Blanco puro)
-        'secondary': '#FFFFFF', 
-        // Texto sobre fondos oscuros o de acento
+        // --- Paleta V5.1 (Confianza, Modernidad y Elegancia) ---
+        
+        // Azul Pizarra Oscuro: Base de la marca. Genera confianza y seriedad.
+        'primary': '#2C3E50', 
+        
+        // Verde Menta/Sage (MUTED): CTA Principal. Profesional, apagado y seguro.
+        'accent': '#49A078',
+        
+        // Naranja/Ámbar: Destaques secundarios (quotes, acordeón de cualidades, banners).
+        'accent-secondary': '#E67E22',
+
+        // Gris Claro: Fondo principal. Modernidad y reduce la fatiga visual.
+        'secondary': '#ECF0F1', 
+        
+        // Blanco: Para texto sobre fondos oscuros o de acento.
         'text-inverted': '#FFFFFF',
-        // Texto principal (alias de 'primary' para claridad semántica)
-        'text-base': '#3D3D3D',
+        
+        // Texto Principal: (Alias de 'primary' para claridad semántica).
+        'text-base': '#2C3E50',
       },
       fontFamily: {
-        // 'sans' se usará para párrafos y contenido (Open Sans)
-        'sans': ['Open Sans', 'sans-serif'],
-        // 'serif' se usará para TÍTULOS (Montserrat)
-        'serif': ['Montserrat', 'sans-serif'],
+        // 'sans' se usará para párrafos y contenido (Lato)
+        'sans': ['Lato', 'sans-serif'],
+        // 'serif' se usará para TÍTULOS (Poppins)
+        'serif': ['Poppins', 'sans-serif'],
       },
     },
   },

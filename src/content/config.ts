@@ -1,14 +1,14 @@
-// @src/content/config.ts (VERSIÓN 4.17.2 - Toggle Scroller)
+// @src/content/config.ts (VERSIÓN 6.4 - Colección Legal y Footer)
 import { z, defineCollection } from 'astro:content';
 
-// 1. Colección Servicios
-const serviciosCollection = defineCollection({
+// 1. Colección Productos
+const productosCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
-    description: z.string().optional(), // Este es el texto de la tarjeta
-    image: z.string().optional(),       // Esta es la imagen opcional
+    description: z.string().optional(),
+    image: z.string().optional(),
   }),
 });
 
@@ -16,8 +16,7 @@ const serviciosCollection = defineCollection({
 const paginasCollection = defineCollection({
   type: 'content',
   schema: z.object({
-    template: z.string().optional(), // Campo 'hidden'
-
+    template: z.string().optional(),
     hero: z.object({
       show_section: z.boolean().optional().default(true), 
       title: z.string().optional(),
@@ -28,34 +27,43 @@ const paginasCollection = defineCollection({
       image_logo: z.string().optional(), 
       image_main: z.string().optional(), 
     }).optional(),
-
+    cualidades_marca: z.object({
+      show_section: z.boolean().optional().default(true),
+      items: z.array(z.object({
+        icon: z.string().optional(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        image_fondo: z.string().optional(),
+      })).optional(),
+    }).optional(),
     nosotros: z.object({
       show_section: z.boolean().optional().default(true), 
-      background_image: z.string().optional(), 
+      image: z.string().optional(),
       title: z.string().optional(),
-      content: z.string().optional(),
+      subtitle: z.string().optional(),
+      description: z.string().optional(),
+      mision_title: z.string().optional(),
+      mision_text: z.string().optional(),
+      vision_title: z.string().optional(),
+      vision_text: z.string().optional(),
     }).optional(),
-
-    servicios: z.object({
+    productos: z.object({
       show_section: z.boolean().optional().default(true), 
       title: z.string().optional(),
       subtitle: z.string().optional(),
     }).optional(),
-
     proyectos: z.object({ 
       show_section: z.boolean().optional().default(true),
       title: z.string().optional(),
       subtitle: z.string().optional(),
-      lista_destacados: z.array(z.string()).optional(), // Relación de Proyectos
+      lista_destacados: z.array(z.string()).optional(),
     }).optional(),
-
     clientes: z.object({
       show_section: z.boolean().optional().default(true), 
       title: z.string().optional(),
-      lista_destacados: z.array(z.string()).optional(), // Relación de Clientes
-      show_scroller: z.boolean().optional().default(true), // <-- CAMPO AÑADIDO
+      lista_destacados: z.array(z.string()).optional(),
+      show_scroller: z.boolean().optional().default(true),
     }).optional(),
-
     testimonios: z.object({ 
       show_section: z.boolean().optional().default(true),
       title: z.string().optional(),
@@ -87,10 +95,9 @@ const proyectosCollection = defineCollection({
 const clientesCollection = defineCollection({
   type: 'content',
   schema: z.object({
-    // 'slug' se elimina del schema porque Astro lo maneja automáticamente
-    titulo: z.string(), // Nombre del cliente
-    logo: z.string(),   // Path a la imagen
-    url: z.string().url().optional(), // URL Opcional
+    titulo: z.string(),
+    logo: z.string(),
+    url: z.string().url().optional(),
   }),
 });
 
@@ -123,15 +130,50 @@ const contactoCollection = defineCollection({
     contact_subheading: z.string().optional(),
     whatsapp_message: z.string().optional(),
     show_contact_section: z.boolean().optional(),
+    logo_footer: z.string().optional(),
+    footer_description: z.string().optional(),
+    social_media: z.object({
+      facebook: z.string().url().optional(),
+      instagram: z.string().url().optional(),
+      twitter: z.string().url().optional(),
+      linkedin: z.string().url().optional(),
+      youtube: z.string().url().optional(),
+    }).optional(),
   }),
 });
 
+// 7. Colección Navegación del Footer (CORREGIDA V6.4)
+const footerNavigationCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    // Un array de columnas de enlaces
+    columns: z.array(z.object({
+      title: z.string(), // Título de la columna (p.ej. "Navegación")
+      links: z.array(z.object({
+        text: z.string(),
+        url: z.string(),
+      })),
+    })).optional(),
+  }),
+});
+
+// 8. Colección Páginas Legales
+const legalCollection = defineCollection({
+  type: 'content', 
+  schema: z.object({
+    title: z.string(),
+  }),
+});
+
+
 // --- Exportaciones ---
 export const collections = {
-  'servicios': serviciosCollection,
+  'productos': productosCollection,
   'pages': paginasCollection,
   'proyectos': proyectosCollection,
   'clientes': clientesCollection,
   'ajustes': ajustesCollection,
   'informacion-de-contacto': contactoCollection,
+  'footer_navigation': footerNavigationCollection, // CORREGIDO
+  'legal': legalCollection,
 };
