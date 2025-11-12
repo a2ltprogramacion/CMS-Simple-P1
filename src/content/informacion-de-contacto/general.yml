@@ -1,10 +1,15 @@
-whatsapp: "56969026931"
-phone: ""
-email: marialba@elevawod.cl
-address: Santiago de Chile, Chile
+whatsapp: "584244691920"
+phone: "584128252429"
+email: a2lt.soluciones@gmail.com
+address: San Diego, Carabobo, Valencia
+logo_footer: /assets/uploads/gemini_generated_image_wbf0ybwbf0ybwbf0.png
 contact_heading: ¿Empezamos?
 contact_subheading: "Decide: WhatsApp para una respuesta más rápida o envíame un correo."
 whatsapp_message: Hola, vengo a cotizar un proyecto
 show_contact_section: true
+social_media:
+  facebook: https://facebook.com
+  instagram: https://instagram.com
+  twitter: https://x.com
 emails:
   - test.secundario@testing.com
