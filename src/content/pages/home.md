@@ -41,6 +41,7 @@ proyectos:
     - "De Seguidores a Fans: Creando una Comunidad Fiel para Café Origen"
     - "De la Duda a la Ganancia: Triplicando el Retorno de Inversión para Tienda
       Aura"
+    - Modernización y Generación de Leads de Calidad para el Sector B2B
 og:
   image: /assets/uploads/logo.jpg
   title: "ELEVAWOD: Tu Socio Estratégico en Marketing Digital para PYMES"
@@ -158,6 +159,11 @@ nosotros:
 
 
     **Tu éxito es nuestro éxito.** Estamos aquí para ser el socio que te acompaña, te entiende y te ayuda a escalar.
+  lista_destacados_productos:
+    - Branding para Marcas que Dejan Huella
+    - Gestión de Redes Sociales que Conectan
+    - Email Marketing que Fideliza y Automatiza
+    - Publicidad Digital con Retorno (ROAS)
   image: /assets/uploads/logo.jpg
   mision_text: Texto Misión
   description: Descripción principal
