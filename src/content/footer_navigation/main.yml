@@ -1,6 +1,3 @@
-# src/content/footer_navigation/main.yml
-# Este archivo alimenta las columnas del footer.
-
 columns:
   - title: Navegación
     links:
@@ -10,10 +7,3 @@ columns:
         url: /#productos
       - text: Proyectos
         url: /proyectos
-  
-  - title: Legal
-    links:
-      - text: Políticas de Privacidad
-        url: /legal/politicas-de-privacidad
-      - text: Términos y Condiciones
-        url: /legal/terminos-y-condiciones
