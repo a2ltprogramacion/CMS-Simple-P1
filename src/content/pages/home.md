@@ -2,15 +2,16 @@
 brand_name: ARGENIS
 canonical_url: https://elevawod.cl/
 hero:
+  cta_url: "#contacto"
+  show_section: true
   background_image: https://zerotrust.mx/wp-content/uploads/2023/08/Dimensiones-personalizadas-1000x600-px.jpg
-  title: "**Convertimos** estrategias **en impacto**"
+  image_logo: /assets/uploads/logo-trasnparente.png
   subtitle: "No somos la típica agencia. Dejamos la complejidad a un lado y nos
     enfocamos en resultados reales: más clientes, más ventas y un retorno de
     inversión **(ROAS)** que puedas ver."
+  title: "**Convertimos** estrategias **en impacto**"
   cta_text: Solicita tu Diagnóstico Gratuito
-  cta_url: "#contacto"
-  show_section: true
-  image_logo: /assets/uploads/logo-trasnparente.png
+  description: Descripción (Hero)
   image_main: /assets/uploads/hero.png
 cualidades_marca:
   show_section: true
